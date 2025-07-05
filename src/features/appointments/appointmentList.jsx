@@ -4,7 +4,8 @@ import { deleteAppointment } from "./appointmentsSlice";
 
 const AppointmentList = ()=>{
     //access the appointment state from Redux store
-    const appointments = useSelector((state)=> state.appointments.appointments);
+    const {appointments, filterBy, searchTerm} = useSelector((state)=> state.appointments);
+    
     console.log("Appointments from Redux:",appointments);
     const dispatch = useDispatch();
 
