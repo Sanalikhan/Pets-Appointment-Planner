@@ -2,12 +2,22 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteAppointment } from "./appointmentsSlice";
 
+
 const AppointmentList = ()=>{
     //access the appointment state from Redux store
     const {appointments, filterBy, searchTerm} = useSelector((state)=> state.appointments);
     
     console.log("Appointments from Redux:",appointments);
     const dispatch = useDispatch();
+
+    //filtering logic
+    const filteredAppointments = appointments.filter((appt) => {
+        if (!filterBy || !searchTerm) return true;
+        const filteredOption = appt[filterBy]?.toLowerCase();
+        const searchedTerm = searchTerm.toLowerCase();
+        return filteredOption.includes(searchedTerm);
+    });
+    console.log('filtering login complete!');
 
      if (appointments.length === 0){
      return (
@@ -19,7 +29,7 @@ const AppointmentList = ()=>{
      return (
         <div className=" mx-auto w-full mt-4 space-y-4 flex flex-col">
             <h2 className="font-bold ml-6 text-2xl">List of Appointments</h2>
-            {appointments.map((appt)=>(
+            {filteredAppointments.map((appt)=>(
                 <div key={appt.id} className="border border-2 border-blue-200 bg-gray-300 p-4 rounded-4xl shadow flex flex-col px-20 text-blue-900">
                     <h3 className="font-bold text-lg">{appt.petName}</h3>
                     <p><strong>Owner:</strong>{appt.ownerName}</p>
