@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteAppointment } from "./appointmentsSlice";
+import { DownloadAlert } from "../../components/DownloadAlert";
+
 
 
 const AppointmentList = ()=>{
@@ -27,8 +29,11 @@ const AppointmentList = ()=>{
      }
 
      return (
-        <div className=" mx-auto w-full mt-4 space-y-4 flex flex-col">
-            <h2 className="font-bold ml-6 text-2xl">List of Appointments</h2>
+        <div className=" mx-auto mt-4 w-full space-y-4 flex flex-col">
+            <div className="flex justify-between items-start mx-6">            
+            <h2 className="font-bold text-2xl">List of Appointments</h2>
+            <DownloadAlert/>
+            </div>
             {filteredAppointments.map((appt)=>(
                 <div key={appt.id} className="border border-2 border-blue-200 bg-gray-300 p-4 rounded-4xl shadow flex flex-col px-20 text-blue-900">
                     <h3 className="font-bold text-lg">{appt.petName}</h3>

@@ -14,7 +14,7 @@ export function Filter() {
 ];
 
  return (
-    <div>
+    <div className="">
         <input
         type="text"
         placeholder={filterBy ? `Search by ${filterBy}` : `Select filter`}
@@ -42,3 +42,4 @@ export function Filter() {
     </div>
  )
 } 
+export default Filter;
