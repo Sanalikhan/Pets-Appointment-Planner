@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import img from "./assets/icon-6951393_1280.jpg"
 import AppointmentList from "./features/appointments/appointmentList";
 import Filter from "./components/filter";
+import LoginPage from "../pages/loginPage";
 
 
 export default function App(){
@@ -20,6 +21,7 @@ export default function App(){
             <AppointmentForm showForm={showForm} setShowForm={setShowForm}/>
             <Filter/>
             <AppointmentList/>
+            <LoginPage/>
             </div>
         </div>
     );
