@@ -1,5 +1,6 @@
 
 @import "tailwindcss";
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -14,15 +15,104 @@
   -moz-osx-font-smoothing: grayscale;
 }
 body {
-  margin: 0;
   display: flex;
   min-height: 100vh;
+  font-family: "Raleway", sans-serif;
+  
+}  
+
+.nav-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  height: 24px;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, gray, transparent);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+@keyframes slideInUp{
+  0%{
+    transform:translateY(10px);
+    opacity: 0;
+  }
+  100%{
+    transform: translateY(0%);
+    opacity: 1;
+  }
 }
+.slide-up {
+  animation: slideInUp 1s ease-out forwards;
+}
+@keyframes slideInLeft{
+  0%{
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  100%{
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+.slide-left{
+animation: slideInLeft 1s ease-out forwards;
+}
+@keyframes slideInDown{
+  0%{
+    transition: translateY(50px);
+    opacity: 0;
+  }
+  100%{
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+.slide-down{
+  animation: slideInUp 0.5s ease-in forwards;
+}
+@media (width < 360px) and (width : 360px) {
+  .custom-style{
+    border-radius: 50%;
+  }
+
+}
+@media (min-width: 640px) and (max-width:740px){
+  .custom1{
+  font-size: 30px;
+  font-weight: bold;
+  margin-left: auto;
+  }
+  .custom2{
+    font-size: 15px;
+    line-height: 1.1rem;
+  }
+  .custom3{
+    font-size: 14px;
+    padding: 4px;
+  }
+}
+
+.fade-mask{
+
+  /*vertical and horizontal mask combined using linear-gradient for each, and for two we use mask composite*/
+  mask-image:linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%), linear-gradient(to-right, transparent 0%, black 10%, black 90%, transparent 100%);
+  mask-composite: intersect;
+  mask-type: luminance;
+
+  /*now for cross browsing ease*/
+  -webkit-mask-image: 
+    linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%),
+    linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%);
+  -webkit-mask-composite: multiply;
+  -webkit-mask-type: luminance;
+}
+
+
+
+
+
+
 
 
 
@@ -30,8 +120,8 @@ h1 {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: #000000;
+    background-color: #e2dfdf;
   }
 
 

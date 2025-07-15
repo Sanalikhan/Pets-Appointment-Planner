@@ -107,10 +107,8 @@ setShowForm(false);
     </form>
     :            
     <button 
-     onClick={()=>{
-      
-      setShowForm(true)}}
-     className="font-semibold mt-7 mr-7 self-end bg-black py-2 px-4 hover:cursor-pointer hover:bg-gray-700  rounded-full transition hover:outline-black hover:outline-offset-1 hover:outline-2  text-white">Book an appointment</button>}
+     onClick={()=>setShowForm(true)}
+     className="font-semibold mt-7 mr-7 self-end bg-black py-2 px-4 hover:cursor-pointer hover:bg-gray-700  rounded-full transition hover:outline hover:outline-black hover:outline-offset-1 hover:outline-2  text-white">Book an appointment</button>}
     </div>
     );
 };
