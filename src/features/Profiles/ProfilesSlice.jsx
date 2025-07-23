@@ -1,17 +1,45 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, nanoid } from "@reduxjs/toolkit";
+import { create } from "domain";
 
 
 const initialState = [{
+auth:
+{
+profileId: "",
+email: "",
+password: ""
+},
+appointments :{
+list:[
+    {
     petId:"",
-    profilePic:null,
-    name:"",
-    history:[{
-        symptoms:"",
-        date:"",
-        time:""
-    }],
-}]
+    petName:"",
+    ownerName:"",
+    date: "",
+    time:""
+    }
+],
+searchTerm: '',
+filter:''
+}
+}];
 
+const profileSlice = createSlice({
+    name: 'profile',
+    initialState,
+    reducers:{
+        
+    }
+})
+
+
+
+
+
+
+
+{/* 
+    for pet history i might be useful see it later
 export const syncPetWithHistory = createAsyncThunk(
     "profiles/syncPetWithHistory",
     async (newAppointment,{getState})=>{
@@ -74,4 +102,4 @@ const ProfilesSlice = createSlice({
     },
 });
 
-export default ProfilesSlice.reducer;
+export default ProfilesSlice.reducer;*/}

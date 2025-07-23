@@ -2,7 +2,6 @@ import AppointmentForm from "../features/appointments/AppointmentForm";
 import React, { useState } from "react";
 import AppointmentList from "../features/appointments/appointmentList";
 import Filter from "../components/filter";
-import LoginPage from "./signUp"
  import NavBar from "../components/navBar";
  import lineDivider from "../assets/lineDivider-removebg-preview.png";
  import Services from "../components/services";
@@ -28,7 +27,7 @@ export default function Home(){
             </div>
             </div>
             <button className="font-semibold my-7 mr-7 self-end bg-black py-2 px-4 hover:cursor-pointer hover:bg-gray-700  rounded-full transition hover:outline-black hover:outline-offset-1 hover:outline-1 ml-9 text-white "
-            onClick={()=>navigate('/appointmentform')}>Book an appointment</button>
+            onClick={()=>navigate('/appointmentform')}>Book an appointment as guest</button>
             <div className="flex flex-col items-center my-10">
                 <h2 className="text-xl md:text-3xl sm:text-2xl slide-up">WHY CHOOSE US?</h2>
                 <img src={lineDivider}/>

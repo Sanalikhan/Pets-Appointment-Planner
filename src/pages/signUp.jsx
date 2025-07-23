@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-    import bgImage from '../assets/7777135.jpg'
+import bgImage from '../assets/7777135.jpg'
+import appleLogo from '../assets/Apple-Logo-Png-Download-768x950.png'
+import { useNavigate } from "react-router-dom";
 
 export default function SignUpPage(){
+  const navigate = useNavigate();
     // the two states below are for password and password toggling
     const [showPassword, setShowPassword] =useState(false);
     const [password, setPassword] = useState("");
@@ -76,7 +79,7 @@ export default function SignUpPage(){
             </button>
             <div className="flex flex-row gap-4 justify-center">
               <button className="flex items-center gap-2 px-5 py-2 border rounded-full shadow-2xl border-gray-300">
-                <img src="../src/assets/apple-xxl.png" alt="Apple" className="w-5 h-5" />
+                <img src={appleLogo} alt="Apple" className="w-5 h-5" />
                 <span>Apple</span>
               </button>
               <button className="flex items-center gap-2 px-5 py-2 border rounded-full shadow-2xl border-gray-300">
@@ -88,11 +91,11 @@ export default function SignUpPage(){
             </form>
             </div>
             <div className="flex text-gray-500 justify-between text-xs absolute bottom-14 gap-16">
-                <p>Have any account? <a href="#" className="underline decoration-gray-500 underline-offset-1" >Sign in</a></p>
+                <p onClick={()=> navigate("/login")}>Have any account? <a href="#" className="underline decoration-gray-500 underline-offset-1" >Sign in</a></p>
                 <p>Terms and Conditions</p>
             </div>
             </div>
         </div>
-    )
+    );
 }
 
