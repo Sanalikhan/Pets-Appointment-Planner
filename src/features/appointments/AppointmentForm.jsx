@@ -2,10 +2,14 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addAppointment } from "./appointmentsSlice";
+import bgImage from '../../assets/beautiful-dog-looking-away-with-copy-space.jpg';
+import bgImage1 from '../../assets/beautiful-shot-different-dog-breeds-resting.png';
 
 
 
-const AppointmentForm  = ({showForm,setShowForm}) => {
+
+const AppointmentForm  = () => {
+
 const dispatch = useDispatch();
 const [formData, setFormData]= useState({
     petName:"",
@@ -32,23 +36,17 @@ setFormData({
     time: '',
     symptoms: '',
 });
-setShowForm(false);
 };
 
 
-    return(<div className="flex flex-col"> 
-        {showForm?
+    return(
+    <div style={{backgroundImage:`url(${bgImage})`}}
+    className="flex justify-center items-center w-screen h-screen bg-cover bg-center"> 
     <form onSubmit={handleSubmit}
-    className="w-[50%] p-6 mx-auto bg-white flex flex-col  items-start gap-y-10 h">
-    <button
-    onClick={()=>setFormData({
-    petName:'',
-    ownerName:'',
-    date: '',
-    time: '',
-    symptoms: '',
-})}
-    className="font-semibold self-end md:mr-20 lg:mr-20 sm:mr-10">Add Appointment</button>
+    className="relative p-6 bg-white rounded-4xl flex flex-col  items-start gap-y-10 h">
+    <img
+    src={bgImage1} 
+    className="absolute top-3/4 right-3/4 w-64 h-auto z-10"/>
     <div className="flex flex-col w-auto items-start ml-16 md:ml-10 sm:ml-5 gap-y-8">
     <div className="flex items-start gap-x-4">
     <label>Pet Name</label>
@@ -103,12 +101,8 @@ setShowForm(false);
       />
     </div>
     </div>
-      <button type="submit" className="self-end mr-28">Submit</button>
+      <button type="submit" className="self-end mr-28 bg-amber-400 px-6 py-2 rounded-full  focus:outline-2 focus:outline-offset-2 focus:outline-amber-600 hover:bg-amber-600">Submit</button>
     </form>
-    :            
-    <button 
-     onClick={()=>setShowForm(true)}
-     className="font-semibold mt-7 mr-7 self-end bg-black py-2 px-4 hover:cursor-pointer hover:bg-gray-700  rounded-full transition hover:outline hover:outline-black hover:outline-offset-1 hover:outline-2  text-white">Book an appointment</button>}
     </div>
     );
 };
