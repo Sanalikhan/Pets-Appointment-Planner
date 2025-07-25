@@ -1,36 +1,111 @@
 import { createSlice, createAsyncThunk, nanoid } from "@reduxjs/toolkit";
-import { create } from "domain";
+import { setFilterBy, setSearchTerm } from "../appointments/appointmentsSlice";
 
 
-const initialState = [{
-auth:
-{
-profileId: "",
-email: "",
-password: ""
-},
-appointments :{
-list:[
-    {
-    petId:"",
-    petName:"",
-    ownerName:"",
-    date: "",
-    time:""
-    }
-],
-searchTerm: '',
-filter:''
-}
-}];
 
-const profileSlice = createSlice({
-    name: 'profile',
+const initialState = {
+    users:[]
+};
+
+const usersSlice = createSlice({
+    name: 'users',
     initialState,
-    reducers:{
-        
-    }
-})
+    reducers: {
+        registerUser: {
+            reducer(state,action){
+            state.users.push(action.payload);
+            },
+            prepare({email,password}){
+                return {
+                    payload:{
+                        profileId: nanoid(),
+                        email,
+                        password,
+                        appointments: [],
+                        filterBy:'',
+                        searchTerm:''
+                    }
+                };
+            }
+        },
+        addAppointment: {
+            reducer(state,action){
+                const {profileId,appointment} = action.payload;
+                const user = state.users.find(user=> user.profileId === profileId);
+                if (user) user.appointments.push(appointment);
+                localStorage.setItem('appointments', JSON.stringify(state.appointments))
+            },
+            prepare({profileId,petName,ownerName,date,time,symptoms}){
+                return {
+                    payload:{
+                        profileId,
+                        appointment: {
+                            petId: nanoid(),
+                            petName,
+                            ownerName,
+                            date,
+                            time,
+                            symptoms
+                        }
+                    }
+                };
+            }
+        },
+        filterAppointments: {
+            reducer(state,action){
+            
+            }
+        },
+        setSearchTerm:{
+            reducer(state,action){
+                const {profileId,term}= action.payload;
+                const user= state.users.find(user=> user.profileId===profileId);
+                user.searchTerm = term; 
+            }
+        },
+        setFilterBy:{
+            reducer(state,action){
+                const {profileId,filter}= action.payload;
+                const user= state.users.find(user=> user.profileId===profileId);
+                if(user){
+                user.filterBy = filter; 
+            }}
+        },
+        editAppointment:{
+            reducer(state,action){
+                const {profileId,appointment}= action.payload;
+                const user= state.users.find(user=> user.profileId===profileId);
+                const appointmentToBeEdited = user.appointments.find((app)=>app.petId === appointment.petId);
+                if (appointmentToBeEdited){
+                    Object.assign(appointmentToBeEdited,appointment);
+                }
+            },
+            prepare({profileId,petId,ownerName,petName,date,time,symptoms}){
+                return {
+                    payload:{
+                        profileId,
+                        appointment: {
+                            petId,
+                            petName,
+                            ownerName,
+                            date,
+                            time,
+                            symptoms
+                        }
+                    }
+                }
+            }
+        },
+        deleteAppointment:{
+            reducer(state,action){
+                const {profileId,petId} = action.payload;
+                const user= state.users.find(u => u.profileId = profileId);
+                if (user){
+                    user.appointments = user.appointments.filter(app => app.petId !== petId); 
+                }
+            }
+        }
+});
 
 
 
@@ -39,7 +114,32 @@ const profileSlice = createSlice({
 
 
 {/* 
-    for pet history i might be useful see it later
+
+    //getting filter appointemnts, use it tommorrow
+    export const selectFilteredAppointments = (state, profileId) => {
+  const user = state.users.users.find(user => user.profileId === profileId);
+  if (!user) return [];
+
+  const { searchTerm, filterBy, appointments } = user;
+
+  return appointments.filter(app => {
+    const term = searchTerm.toLowerCase();
+
+    const matchesSearch = 
+      app.petName.toLowerCase().includes(term) ||
+      app.ownerName.toLowerCase().includes(term) ||
+      app.date.includes(term) ||
+      app.time.includes(term);
+
+    const matchesFilter = filterBy ? app.date === filterBy : true;
+
+    return matchesSearch && matchesFilter;
+  });
+};
+ 
+
+
+    for pet history it might be useful see it later
 export const syncPetWithHistory = createAsyncThunk(
     "profiles/syncPetWithHistory",
     async (newAppointment,{getState})=>{
