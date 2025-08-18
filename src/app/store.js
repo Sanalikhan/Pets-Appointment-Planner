@@ -1,12 +1,14 @@
 import {configureStore} from "@reduxjs/toolkit";
-import appointmentReducer from  "../features/appointments/appointmentsSlice.jsx";
-import profileReducer from "../features/Profiles/ProfilesSlice.jsx"
+import guestSliceReducer from '../features/Profiles/guestSlice';
+import userSliceReducer from '../features/Profiles/ProfilesSlice';
+import authSlice from '../features/Profiles/authSlice';
 
 
 
 export const store=configureStore({
     reducer: {
-        appointments: appointmentReducer,
-        profiles: profileReducer,
+        profiles : userSliceReducer,
+        guests: guestSliceReducer,
+        auth: authSlice
     },
 });

@@ -1,17 +1,26 @@
-import React from "react";
+import React,{useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAppointment } from "./appointmentsSlice";
+import { deleteAppointment } from "../../features/Profiles/ProfilesSlice";
 import { DownloadAlert } from "../../components/DownloadAlert";
+import Filter from "../../components/filter";
 
 
 
-const AppointmentList = ()=>{
-    //access the appointment state from Redux store
-    const {appointments, filterBy, searchTerm} = useSelector((state)=> state.appointments);
+const AppointmentList = ({profileId})=>{
+    console.log('profile id, appointments of which will be displayed', profileId);
+    //for accessing appointments
+    const user = useSelector((state)=> state.profiles.users.find((user)=> user.profileId === profileId));
+    console.log('user whose profile is opened', user);
+    const appointments = user.appointments;
+    console.log('appointments history',appointments);
+    //local states for filtering 
+    const [filterBy, setFilterBy] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
+
     
     console.log("Appointments from Redux:",appointments);
     const dispatch = useDispatch();
-
+    
     //filtering logic
     const filteredAppointments = appointments.filter((appt) => {
         if (!filterBy || !searchTerm) return true;
@@ -31,20 +40,24 @@ const AppointmentList = ()=>{
      return (
         <div className=" mx-auto mt-4 w-full space-y-4 flex flex-col">
             <div className="flex justify-between items-start mx-6">            
-            <h2 className="font-bold text-2xl">List of Appointments</h2>
-            <DownloadAlert/>
+            <h2 className="font-bold text-xl">List of Appointments</h2>
+            <DownloadAlert appointments={appointments}/>
             </div>
+            <Filter filterBy={filterBy} setFilterBy={setFilterBy}
+            searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             {filteredAppointments.map((appt)=>(
-                <div key={appt.id} className="border border-2 border-blue-200 bg-gray-300 p-4 rounded-4xl shadow flex flex-col px-20 text-blue-900">
-                    <h3 className="font-bold text-lg">{appt.petName}</h3>
-                    <p><strong>Owner:</strong>{appt.ownerName}</p>
-                    <p><strong>Date:</strong>{appt.date}</p>
-                    <p><strong>Time:</strong>{appt.time}</p>
-                    <p><strong>Symptoms:</strong>{appt.symptoms}</p>
-                    <button 
-                    onClick={()=> dispatch(deleteAppointment(appt.id))}
-                    className="text-blue-600 w-auto  self-end"
+                <div key={appt.petId} className=" border-2 border-blue-200 bg-gray-300 py-1 rounded-4xl shadow flex flex-col px-20 text-blue-900 text-sm">
+                    <h3 className="font-bold text-lg pb-2">{appt.petName}</h3>
+                    <p><strong className="pr-3">Owner:</strong>{appt.ownerName}</p>
+                    <p><strong className="pr-3">Date:</strong>{appt.date}</p>
+                    <p><strong className="pr-3">Time:</strong>{appt.time}</p>
+                    <div className="flex justify-between">
+                   <p><strong className="pr-3">Symptoms:</strong>{appt.symptoms}</p>
+                  <button 
+                    onClick={()=> dispatch(deleteAppointment({profileId, petId: appt.petId}))}
+                    className="text-white w-auto  self-end bg-black py-1 px-2 rounded-2xl hover:bg-gray-800"
                     >Delete</button>
+                    </div>
                 </div>
             ))}
         </div>

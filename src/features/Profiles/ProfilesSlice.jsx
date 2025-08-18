@@ -1,10 +1,10 @@
-import { createSlice, createAsyncThunk, nanoid } from "@reduxjs/toolkit";
-import { setFilterBy, setSearchTerm } from "../appointments/appointmentsSlice";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
+import bcrypt from "bcryptjs";
 
 
-
-const initialState = {
-    users:[]
+const initialState =  {
+    
+    users: JSON.parse(localStorage.getItem('users')) || []
 };
 
 const usersSlice = createSlice({
@@ -14,16 +14,19 @@ const usersSlice = createSlice({
         registerUser: {
             reducer(state,action){
             state.users.push(action.payload);
+            localStorage.setItem('users',JSON.stringify(state.users));
             },
             prepare({email,password}){
+                const salt = bcrypt.genSaltSync(10);//cost factor 10 , if its higher it means its more secure but slower 
+                const hashedPassword = bcrypt.hashSync(password, salt);
+
+
                 return {
                     payload:{
                         profileId: nanoid(),
                         email,
-                        password,
+                        password: hashedPassword,
                         appointments: [],
-                        filterBy:'',
-                        searchTerm:''
                     }
                 };
             }
@@ -32,8 +35,11 @@ const usersSlice = createSlice({
             reducer(state,action){
                 const {profileId,appointment} = action.payload;
                 const user = state.users.find(user=> user.profileId === profileId);
+                console.log('Dispatched payload:', action.payload);
+                console.log('found user', user);
                 if (user) user.appointments.push(appointment);
-                localStorage.setItem('appointments', JSON.stringify(state.appointments))
+                console.log('list of appointments', user.appointments);
+                localStorage.setItem('users', JSON.stringify(state.users));
             },
             prepare({profileId,petName,ownerName,date,time,symptoms}){
                 return {
@@ -51,26 +57,6 @@ const usersSlice = createSlice({
                 };
             }
         },
-        filterAppointments: {
-            reducer(state,action){
-            
-            }
-        },
-        setSearchTerm:{
-            reducer(state,action){
-                const {profileId,term}= action.payload;
-                const user= state.users.find(user=> user.profileId===profileId);
-                user.searchTerm = term; 
-            }
-        },
-        setFilterBy:{
-            reducer(state,action){
-                const {profileId,filter}= action.payload;
-                const user= state.users.find(user=> user.profileId===profileId);
-                if(user){
-                user.filterBy = filter; 
-            }}
-        },
         editAppointment:{
             reducer(state,action){
                 const {profileId,appointment}= action.payload;
@@ -79,6 +65,7 @@ const usersSlice = createSlice({
                 if (appointmentToBeEdited){
                     Object.assign(appointmentToBeEdited,appointment);
                 }
+                localStorage.setItem('users',JSON.stringify(state.users));
             },
             prepare({profileId,petId,ownerName,petName,date,time,symptoms}){
                 return {
@@ -99,107 +86,14 @@ const usersSlice = createSlice({
         deleteAppointment:{
             reducer(state,action){
                 const {profileId,petId} = action.payload;
-                const user= state.users.find(u => u.profileId = profileId);
+                const user= state.users.find(u => u.profileId === profileId);
                 if (user){
                     user.appointments = user.appointments.filter(app => app.petId !== petId); 
                 }
+                localStorage.setItem('users',JSON.stringify(state.users));
             }
         }
-});
+}});
 
-
-
-
-
-
-
-{/* 
-
-    //getting filter appointemnts, use it tommorrow
-    export const selectFilteredAppointments = (state, profileId) => {
-  const user = state.users.users.find(user => user.profileId === profileId);
-  if (!user) return [];
-
-  const { searchTerm, filterBy, appointments } = user;
-
-  return appointments.filter(app => {
-    const term = searchTerm.toLowerCase();
-
-    const matchesSearch = 
-      app.petName.toLowerCase().includes(term) ||
-      app.ownerName.toLowerCase().includes(term) ||
-      app.date.includes(term) ||
-      app.time.includes(term);
-
-    const matchesFilter = filterBy ? app.date === filterBy : true;
-
-    return matchesSearch && matchesFilter;
-  });
-};
- 
-
-
-    for pet history it might be useful see it later
-export const syncPetWithHistory = createAsyncThunk(
-    "profiles/syncPetWithHistory",
-    async (newAppointment,{getState})=>{
-        //accessing the whole state using getState()
-        const state = getState();
-        const profiles = state.profiles;
-        const petId = newAppointment.petId;
-        //Find the matching profile
-        const existingProfile = profiles.find((profile)=> profile.petId === petId);
-        // if the profile already exists
-        if (existingProfile){
-            return {
-                type: "append",
-                petId,
-                history:{
-                    symptoms: newAppointment.symptoms,
-                    date:newAppointment.date,
-                    time:newAppointment.time
-                },
-            };
-        }
-        else {
-            return {
-                type:"create",
-                profile: {
-                    petId,
-                    name:newAppointment.name,
-                    profilePic:newAppointment.profilePic,
-                    history:[{
-                        symptoms: newAppointment.symptoms,
-                        date:newAppointment.date,
-                        time:newAppointment.time
-                    }],
-                },
-
-            }
-        }
-    }
-);
-
-const ProfilesSlice = createSlice({
-    name: "profiles",
-    initialState,
-    reducers:{},
-    extraReducers: (builder) =>{
-        builder.addCase(syncPetWithHistory.fulfilled,(state,action)=>{
-            const data = action.payload;
-
-            if (data.type === "create"){
-                //push whole new profile
-                state.push(data.profile);
-            }
-            else if (data.type === "append"){
-                const profile = state.find((profile)=>profile.petId === data.petId);
-                if (profile) {
-                    profile.history.push(data.history);
-                }
-            }
-        });
-    },
-});
-
-export default ProfilesSlice.reducer;*/}
+export default usersSlice.reducer;
+export const {deleteAppointment,addAppointment,editAppointment,registerUser} = usersSlice.actions;

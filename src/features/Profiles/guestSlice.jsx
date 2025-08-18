@@ -42,5 +42,7 @@ const guestSlice = createSlice({
             }
         }
     }
-})
+});
+export const {addAppointment} = guestSlice.actions;
+export default guestSlice.reducer;
 

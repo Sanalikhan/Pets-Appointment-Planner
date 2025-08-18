@@ -109,15 +109,6 @@ animation: slideInLeft 1s ease-out forwards;
 }
 
 
-
-
-
-
-
-
-
-
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #000000;

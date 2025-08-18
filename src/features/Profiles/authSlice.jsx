@@ -13,8 +13,9 @@ const authSlice = createSlice({
     logIn :
     {
     reducer(state,action){
-    const {profileId, email,role} = action.payload;
-    state.currentUser = {profileId, email,role};
+    console.log('dispatching login with:', action.payload);
+    const {profileId, email,password,role} = action.payload;
+    state.currentUser = {profileId, email,password,role};
     state.isAuthenticated=true;
     }
     },

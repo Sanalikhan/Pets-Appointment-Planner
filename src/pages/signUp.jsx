@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import bgImage from '../assets/7777135.jpg'
 import appleLogo from '../assets/Apple-Logo-Png-Download-768x950.png'
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../features/Profiles/ProfilesSlice";
 
 export default function SignUpPage(){
   const navigate = useNavigate();
+  //hook up useDispatch()
+  const dispatch = useDispatch();
     // the two states below are for password and password toggling
     const [showPassword, setShowPassword] =useState(false);
     const [password, setPassword] = useState("");
@@ -21,8 +25,15 @@ export default function SignUpPage(){
          else{
             setEmailValid("");
          }
+    };
+    const handleSubmit = (e)=>{
+      e.preventDefault();//prevent page reload
+      if (!email || !password) return; //simple validation
+      dispatch(registerUser({email,password}));//dispatching by email and password
+      //navigate to login page
+      navigate('/login');
+    };
 
-    }
     return  (
         <div className="flex items-center justify-center min-h-screen w-screen bg-cover bg-center"
         style={{backgroundImage: `url(${bgImage})`}}>
@@ -74,6 +85,7 @@ export default function SignUpPage(){
             <button
               type="submit"
               className="bg-yellow-400 hover:bg-yellow-500 text-white py-3 rounded-full mt-4 w-60 self-center"
+              onClick={handleSubmit}
             >
               Submit
             </button>

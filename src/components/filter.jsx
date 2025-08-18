@@ -1,9 +1,10 @@
 import React from "react";
-import { setFilterBy, setSearchTerm } from "../features/appointments/appointmentsSlice";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 
-export function Filter() {
-    const {filterBy,searchTerm} = useSelector((state)=> state.appointments);
+export function Filter({ filterBy, setFilterBy, searchTerm, setSearchTerm }) {
+
+
+
     const dispatch = useDispatch();
     const filterOptions = [
   { label: "Pet Name", value: "petName" },
@@ -14,8 +15,9 @@ export function Filter() {
 ];
 
  return (
-    <div className="">
+    <div className="flex text-sm">
         <input
+        className="bg-gray-100 p-2 rounded-full pl-4 mr-6"
         type="text"
         placeholder={filterBy ? `Search by ${filterBy}` : `Select filter`}
         value={searchTerm}
@@ -23,18 +25,20 @@ export function Filter() {
         disabled={!filterBy}
          />
          <select
+         className="bg-gray-100 p-2 rounded-full pl-4"
          value={filterBy}
          onChange={(e)=>{
             dispatch(setFilterBy(e.target.value));
             dispatch(setSearchTerm(""));
          }}
          >
-            <option value="" 
+            <option className="bg-amber-200" value="" 
             disabled>
                 ---Select filter by--
             </option>
             {filterOptions.map((option) => 
-                <option key={option.value} value={option.value}>
+                <option key={option.value} value={option.value}
+                className="text-xs">
                     {option.label}
                 </option>)
             }

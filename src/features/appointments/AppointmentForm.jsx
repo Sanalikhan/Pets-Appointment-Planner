@@ -1,16 +1,14 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addAppointment } from "./appointmentsSlice";
 import bgImage from '../../assets/beautiful-dog-looking-away-with-copy-space.jpg';
 import bgImage1 from '../../assets/beautiful-shot-different-dog-breeds-resting.png';
+import img from '../../assets/handsome-doctor-veterinarian-examining-cute-black-pug-dog-vet-clinic-standing-white-backgrou.jpg'
 
 
 
+const AppointmentForm  = ({onSubmit, mode}) => {
 
-const AppointmentForm  = () => {
 
-const dispatch = useDispatch();
 const [formData, setFormData]= useState({
     petName:"",
     ownerName:"",
@@ -27,8 +25,9 @@ const handleChange = (e) => {
     }));
 };
 const handleSubmit= (e)=>{
+  console.log(`${mode} triggered`);
 e.preventDefault();
-dispatch(addAppointment(formData));
+if (onSubmit) onSubmit(formData);
 setFormData({
     petName:'',
     ownerName:'',

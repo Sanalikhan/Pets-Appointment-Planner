@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-    import bgImage from '../assets/7777135.jpg'
-    import applelogo from '../assets/Apple-Logo-Png-Download-768x950.png'
+import bgImage from '../assets/7777135.jpg';
+import applelogo from '../assets/Apple-Logo-Png-Download-768x950.png'
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logIn ,logOut} from "../features/Profiles/authSlice";
+import {hardcodedAdmin} from '../features/Profiles/admin';
+import bcrypt from "bcryptjs";
+
+
 
 export default function LogInPage(){
     // the two states below are for password and password toggling
@@ -9,6 +16,13 @@ export default function LogInPage(){
     //the two states below for email and email validation
     const [email,setEmail] = useState("");
     const [emailValid, setEmailValid] = useState("");
+    //error ui if user is not found while logging in
+    const [loginError, setloginError] = useState("");
+    const allUsers = useSelector((state) => state.profiles.users);
+    const auth= useSelector((state)=> state.auth);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
 
     const validateEmail = (value) =>{
          const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -19,8 +33,35 @@ export default function LogInPage(){
          else{
             setEmailValid("");
          }
-
     }
+    const handleLogin =(email, password)=>{
+      if (email === hardcodedAdmin.email){
+      const isMatch = bcrypt.compareSync(password,hardcodedAdmin.hashedPassword);
+      if (isMatch){
+      dispatch(logIn({
+       profileId: hardcodedAdmin.profileId,
+       email: hardcodedAdmin.email,
+       role: hardcodedAdmin.role,
+      }));
+      navigate('/');
+      };
+      }
+      else{
+      const u = allUsers.find((user)=> user.email === email && user.password && bcrypt.compareSync(password, user.password));
+      if (!u){
+        setloginError("Invalid email or password");
+        return;
+      }
+      else{
+      console.log('reducer triggered');
+      dispatch(logIn({
+      email,
+      password,
+      profileId: u.profileId,
+      role: "client"
+      }))
+      navigate("/profile");
+    }}}
     return  (
         <div className="flex items-center justify-center min-h-screen w-screen bg-cover bg-center"
         style={{backgroundImage: `url(${bgImage})`}}>
@@ -42,11 +83,11 @@ export default function LogInPage(){
                         setEmail(e.target.value);
                         validateEmail(e.target.value);
                     }}/>
-                    {!emailValid && <p className="text-red-500 text-sm pl-5">{emailValid}</p>}
+                    {emailValid && <p className="text-red-500 text-sm pl-5">{emailValid}</p>}
                     </div>
                     <div className="flex flex-col items-start gap-y-2 m-4">
                     <label htmlFor="password" className="text-gray-400 pl-5">Password</label>
-                    <div  className="bg-white p-3 rounded-full border border-gray-200 w-xs shadow-md flex justify-between items-center focus-within:outline focus-within:outline-black focus-within:outline-2">
+                    <div  className="bg-white p-3 rounded-full border border-gray-200 w-xs shadow-md flex justify-between items-center focus-within:outline-black focus-within:outline-2">
                     <input
                     id="password"
                     onChange={(e)=>setPassword(e.target.value)}
@@ -73,6 +114,10 @@ export default function LogInPage(){
             <button
               type="submit"
               className="bg-yellow-400 hover:bg-yellow-500 text-white py-3 rounded-full mt-4 w-60 self-center"
+              onClick={(e)=>{
+                e.preventDefault();
+                handleLogin(email,password);
+              }}
             >
               Log in
             </button>

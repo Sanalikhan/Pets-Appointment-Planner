@@ -1,11 +1,9 @@
 import React, {useState, useEffect, useRef} from "react";
 import {jsPDF} from "jspdf";
-import { useSelector } from "react-redux";
 
 
-export function DownloadAlert(){
-//to access the the appointments from the state 
-const {appointments} = useSelector((state)=> state.appointments);
+export function DownloadAlert({appointments}){
+
 //state to handle the download format options
 const [showPrompt, setShowPrompt] = useState(false);
 
@@ -76,8 +74,8 @@ return (
     <div className="relative">
             <div
             onClick={()=> setShowPrompt(true)}
-            className="bg-black hover:bg-blue-600 p-2 rounded-full focus:outline focus: outline-2 focus:outline-blue hover:outline-offset-2 m-1">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download-icon lucide-download"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+            className="bg-black hover:bg-gray-800 p-2 rounded-full focus:outline focus: outline-1 focus:outline-blue hover:outline-offset-2 m-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download-icon lucide-download"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
             </div>
             {showPrompt && (
             <form className="flex flex-col top-12 shadow-xl w-34 items-center text-xs border border-gray-300 p-1 rounded-md bg-white space-y-1 absolute right-0 transition-all duration-300 transform origin-top-right scale-100 opacity-100"
