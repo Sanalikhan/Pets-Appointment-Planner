@@ -1,9 +1,10 @@
 # ​ Pets Appointment Planner
 
-**Pets Appointment Planner** is a React-based web app that lets you conveniently manage pet appointments with:
+**Pets Appointment Planner** is a React-based web app that lets you conveniently lets you book an appointment for your pet as a guest as well as making a permanent user of the app by making a profile on the app which will store all your previous history. 
 
 - **Create**, **view**, **edit**, and **delete** appointments.
 - **Filter & search** by pet name, owner, date, time, symptoms.
+- **download** your list of appointments as csv/pdf file. 
 - Stylish, responsive UI with optional background cover design and smooth transitions.
 
 ---
@@ -22,23 +23,8 @@
 - React
 - Redux (or React useState/useReducer)
 - CSS / Tailwind CSS (or your chosen style framework)
-- Optional: Local storage for data persistence
+- Local storage for data persistence
 
----
-
-##  Project Structure
-
-```text
-src/
-├── components/
-│   ├── Filter.jsx
-│   ├── AppointmentList.jsx
-│   └── AppointmentForm.jsx
-├── redux/ (or state/)
-│   ├── store.js
-│   ├── actions.js
-│   └── reducers.js
-└── App.jsx
 
 Setup & Usage
 
