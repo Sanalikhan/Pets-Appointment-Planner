@@ -1,12 +1,61 @@
-# React + Vite
+# ​ Pets Appointment Planner
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Pets Appointment Planner** is a React-based web app that lets you conveniently manage pet appointments with:
 
-Currently, two official plugins are available:
+- **Create**, **view**, **edit**, and **delete** appointments.
+- **Filter & search** by pet name, owner, date, time, symptoms.
+- Stylish, responsive UI with optional background cover design and smooth transitions.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+##  Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Intuitive filtering**: Real-time search by key details (Pet Name, Owner, Date, Time, Symptoms).
+- **Responsive design**: Clean layout optimized for various screen sizes.
+- **Redux-powered**: State management for filters and appointment data.
+- **Elegant styling**: Rounded buttons, placeholder transitions, refined background (optional enhancements).
+
+---
+
+##  Tech Stack
+
+- React
+- Redux (or React useState/useReducer)
+- CSS / Tailwind CSS (or your chosen style framework)
+- Optional: Local storage for data persistence
+
+---
+
+##  Project Structure
+
+```text
+src/
+├── components/
+│   ├── Filter.jsx
+│   ├── AppointmentList.jsx
+│   └── AppointmentForm.jsx
+├── redux/ (or state/)
+│   ├── store.js
+│   ├── actions.js
+│   └── reducers.js
+└── App.jsx
+
+Setup & Usage
+
+Clone the repo
+
+git clone https://github.com/Sanalikhan/Pets-Appointment-Planner.git
+cd Pets-Appointment-Planner
+
+
+Install dependencies
+
+npm install
+
+
+Start development server
+
+npm run dev
+
+
+Open your browser at http://localhost:3000
