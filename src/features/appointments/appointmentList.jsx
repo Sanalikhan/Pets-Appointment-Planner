@@ -44,10 +44,10 @@ const AppointmentList = ({profileId})=>{
             <DownloadAlert appointments={appointments}/>
             </div>
             <Filter filterBy={filterBy} setFilterBy={setFilterBy}
-            searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+            searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
             {filteredAppointments.map((appt)=>(
-                <div key={appt.petId} className=" border-2 border-blue-200 bg-gray-300 py-1 rounded-4xl shadow flex flex-col px-20 text-blue-900 text-sm">
-                    <h3 className="font-bold text-lg pb-2">{appt.petName}</h3>
+                <div key={appt.petId} className="border-2 border-blue-200 bg-gray-300 py-1 rounded-4xl shadow flex flex-col px-5 sm:px-20 text-blue-900 text-xs sm:text-sm">
+                    <h3 className="font-bold pt-3 sm:pb-2 sm:text-sm text-sm">{appt.petName}</h3>
                     <p><strong className="pr-3">Owner:</strong>{appt.ownerName}</p>
                     <p><strong className="pr-3">Date:</strong>{appt.date}</p>
                     <p><strong className="pr-3">Time:</strong>{appt.time}</p>
